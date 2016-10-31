@@ -70,10 +70,6 @@ a:hover {
   outline: 0;
 }
 
-h1 {
-  margin: 0.67em 0;
-  font-size: 2em;
-}
 
 abbr[title] {
   border-bottom: 1px dotted;
@@ -311,11 +307,11 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+ font-family: 'Nunito', sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+ 
 }
 
 input,
@@ -6814,3 +6810,4 @@ td.visible-print {
     display: none !important;
   }
 }
+
