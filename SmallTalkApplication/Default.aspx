@@ -16,8 +16,8 @@
      <div class='container horizontal-layout'>
          <div class='horizontal-inline'>
              <h1>Small Talk</h1>
-             <asp:Button ID="JoinBtn" class="button green" runat="server" Text="Join"/>
-             <asp:Button ID="CreateBtn" class="button blue" runat="server" Text="Create" Enabled="true" onclick="onCreateClick" />
+             <asp:Button ID="JoinBtn" class="button green" runat="server" Text="Join" OnClick="onCreateClick"/>
+             <asp:Button ID="CreateBtn" class="button blue" runat="server" Text="Create" Enabled="true" OnClick="onCreateClick" />
          </div>
          <div class='horizontal-inline'>
              <img src="Content/Images/chatbubble.png"/>         

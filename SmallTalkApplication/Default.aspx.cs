@@ -14,7 +14,9 @@ public partial class _Default : Page
     }
     public void onCreateClick(object sender, EventArgs e)
     {
-       
+       // var clientScript = Page.ClientScript;
+        //clientScript.RegisterClientScriptBlock(this.GetType(), "AlertScript", "alert('ERROR')", true);
+        Response.Write("<script>alert('hi')</script>");
 
     }
 }
