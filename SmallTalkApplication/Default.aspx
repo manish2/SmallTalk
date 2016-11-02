@@ -1,14 +1,14 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" EnableEventValidation="false"%>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-     <div class='container horizontal-layout'>
-         <div class='horizontal-inline'>
+     <div class='container'>
+         <div>
              <h1>Small Talk</h1>
              <asp:Button ID="CreateBtn" class="button blue" runat="server" Text="Create" Enabled="true" OnClick="onButtonClick"/>
              <asp:Button ID="JoinBtn" class="button green" runat="server" Text="Join" Enabled="true" OnClick="onButtonClick"/>
              <asp:Button ID="hdnField" runat="server" style="visibility:hidden" />
          </div>
-         <div class='horizontal-inline'>
+         <div>
              <img src="Content/Images/chatbubble.png"/>         
          </div>
          <asp:Panel ID="Panel1" runat="server"> 

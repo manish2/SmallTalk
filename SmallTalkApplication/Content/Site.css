@@ -2,13 +2,27 @@
 html,body {
     background: linear-gradient(120deg,  rgba(23, 190, 187, 1), rgba(240, 166, 202, 1));
     overflow: hidden;
+    height:100%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
+
+.container{
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    text-align: center;
+    flex-flow:wrap;
+    height:100%;
 }
+
+.container >div {
+    flex:1;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -53,20 +67,8 @@ h2 {
     padding-right: 15px;
 }
 
-.horizontal-layout{
-    display:table;
-}
 
-.horizontal-inline {
-    display:table-cell;
-    text-align:center;
-    margin-left: auto;
-    margin-right: auto;
-    vertical-align:middle;
-    width: 50%;
-}
-
-
+*/
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
 select,
@@ -172,9 +174,22 @@ textarea {
 { 
     background-color:black;
     filter:alpha(opacity = 90);
-    opacity : .92;
+    opacity : .80;
 }
 .modalPopup 
 { 
     background-color:black; 
+}
+
+.members
+{
+    background-color:black;
+    filter:alpha(opacity = 90);
+    opacity : .8;
+    position:absolute;
+    right:2px;
+    top: 2px;
+    bottom:2px;
+    height:99%;
+    width: 100px;
 }
