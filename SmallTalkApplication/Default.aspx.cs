@@ -10,9 +10,13 @@ public partial class _Default : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if(ViewState["buttonClicked"] == null)
+            ViewState["buttonClicked"] = "None";
     }
-    public void onCreateClick(object sender, EventArgs e)
+    protected void onButtonClick(object sender, EventArgs e)
     {
-
+        Button button = (Button)sender;
+        ViewState["buttonClicked"]= button.ID;
+        ModalPopupExtender1.Show();
     }
 }
