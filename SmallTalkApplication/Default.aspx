@@ -6,14 +6,31 @@
 
             var displayName = document.getElementById('<%=displayName.ClientID%>').value;
 
+            var chatCode;
+            var valid = true;
+
             if (displayName === "" || !displayName) {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.color = 'red';
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'inherit';
-                return false;
-
+                valid = false;
             } else {
-                return true;
+                document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'none';
             }
+
+            try {
+                chatCode = document.getElementById('<%=chatCode.ClientID%>').value;
+                if (chatCode === "" || !chatCode) {
+                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.color = 'red';
+                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'inherit';
+                valid = false
+                } else {
+                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none';
+            }
+            } catch (err) {}
+            
+
+                return valid;
+
         }
     </script>
      <div class='container horizontal-layout'>
@@ -35,14 +52,15 @@
                  </h2>
                  <% if(ViewState["buttonClicked"].Equals("JoinBtn")) { %>
                     <h2> Enter the chat code:
-                        <input id="chat-code" type="text" />
+                        <asp:TextBox id="chatCode" type="text" runat="server"  />
+                        <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
                     </h2>
                  <% } %> 
              </div>
              <asp:Button ID="OK" Text="OK" runat="server" class="button green" onClientClick="return validateData();"/>
              <asp:Button ID="Cancel" Text="Cancel" runat="server" class="button blue"/>
          </asp:Panel>
-         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" OkControlID="OK" PopupControlID="Panel1" TargetControlID="hdnField" BackgroundCssClass="modalBackground">
+         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" OkControlID="Cancel" PopupControlID="Panel1" TargetControlID="hdnField" BackgroundCssClass="modalBackground">
          </ajaxToolkit:ModalPopupExtender>
      </div>
 
