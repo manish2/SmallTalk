@@ -8,10 +8,13 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : Page
 {
+    
     protected void Page_Load(object sender, EventArgs e)
     {
-        if(ViewState["buttonClicked"] == null)
+      
+        if (ViewState["buttonClicked"] == null)
             ViewState["buttonClicked"] = "None";
+       
     }
     protected void onButtonClick(object sender, EventArgs e)
     {
@@ -19,4 +22,5 @@ public partial class _Default : Page
         ViewState["buttonClicked"]= button.ID;
         ModalPopupExtender1.Show();
     }
-}
+  
+ }

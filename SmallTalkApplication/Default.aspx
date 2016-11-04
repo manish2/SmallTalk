@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" EnableEventValidation="false"%>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    
     <script>
         function validateData() {
 
@@ -15,6 +16,7 @@
                 valid = false;
             } else {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'none';
+               
             }
 
             try {
@@ -22,17 +24,15 @@
                 if (chatCode === "" || !chatCode) {
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.color = 'red';
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'inherit';
-                valid = false
+                    valid = false
                 } else {
-                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none';
-            }
+                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none';                    
+                }
             } catch (err) {}
-            
-
                 return valid;
-
         }
     </script>
+    
      <div class='container horizontal-layout'>
          <div class='horizontal-inline'>
              <h1>Small Talk</h1>
