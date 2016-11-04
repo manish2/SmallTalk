@@ -28,9 +28,8 @@
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none';
             }
             } catch (err) {}
-            
 
-                return valid;
+            return valid;
 
         }
     </script>

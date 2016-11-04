@@ -6,17 +6,20 @@ html,body {
     width:100%;
     display: flex;
     justify-content: center;
-    align-items:center;
 }
 
-.container{
+form{
+    width:100%;
+}
+
+.container {
     display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items:center;
+    align-items: center;
     text-align: center;
-    flex-flow:wrap;
-    height:100%;
+    flex-flow: wrap;
+    height: 100%;
+    width:100%;
+    max-width:unset;
 }
 
 .container >div {
@@ -194,14 +197,53 @@ input[type="button"]::-moz-focus-inner {
 
 .members
 {
+    display:flex;
+    flex-direction:column;
     background-color:black;
     filter:alpha(opacity = 90);
     opacity : .8;
-    position:absolute;
-    right:2px;
-    top: 2px;
-    bottom:2px;
+    width: 20%;
+    text-align:left;
     height:99%;
-    width: 100px;
+    margin:5px;
+    padding: 5px;
 }
 
+.small {
+    padding: 10px 25px;
+}
+
+.memberList{
+    width: 100%;
+    flex:1;
+    background-color:black;
+}
+
+.chat{
+    flex-grow:4 !important;
+    display:flex;
+    text-align:left;
+    flex-direction:column;
+    padding: 5px;
+    height:100%;
+}
+
+.chatBox{
+    flex:1;
+}
+
+.message{
+    display:flex;
+}
+
+.messageBox{
+    flex:1;
+}
+
+.chatButtons{
+    text-align:left;
+}
+
+.float-right{
+    float:right;
+}
