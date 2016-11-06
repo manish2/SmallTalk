@@ -7,14 +7,23 @@
         $(function () {
             var con = $.hubConnection();
             var hub = con.createHubProxy('chatServer');
-            hub.on('RecieveMessage', function (name, message) {
+            hub.on('RecieveMessage', function (message) {
                 var currentVal = $('#chatBox').val();
-                $('#chatBox').val(currentVal + name + ": " + message + "\n");
+                var username = localStorage.getItem("username");
+                $('#chatBox').val(currentVal + username + message + "\n");      
+            });
+            con.start().done(function () {
+                if (localStorage.getItem("username") == null) {
+                    window.location = "Default.aspx";
+                }
+                else {
+                    hub.invoke('BroadCastMessage', " joined the chat! ");
+                }
             });
             con.start().done(function () {
                 $('#<%=send.ClientID %>').click(function () {
                     var msg = $("#<%= messageBox.ClientID %>").val();
-                    hub.invoke('BroadCastMessage','anon', msg);
+                    hub.invoke('BroadCastMessage', ": " + msg);
                 });
             });
         })

@@ -18,7 +18,7 @@ public partial class _Default : Page
     protected void onButtonClick(object sender, EventArgs e)
     {
         Button button = (Button)sender;
-        ViewState["buttonClicked"]= button.ID;
+        ViewState["buttonClicked"] = button.ID;
         ModalPopupExtender1.Show();
     }
   

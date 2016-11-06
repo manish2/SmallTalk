@@ -14,10 +14,9 @@
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'inherit';
             } else {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'none';
-                <% ViewState["username"] = displayName; %>
+                localStorage["username"] = $('#displayName').val();
                 window.location = 'Chat.aspx';          
             }
-
             try {
                 chatCode = document.getElementById('<%=chatCode.ClientID%>').value;
                 if (chatCode === "initial" || !chatCode) {
@@ -48,13 +47,13 @@
          <asp:Panel ID="Panel1" runat="server"> 
              <div>
                  <h2> Choose your display name: 
-                    <asp:TextBox id="displayName" runat="server" type="text" autofocus MaxLength="20"/>
+                    <asp:TextBox id="displayName" runat="server" type="text" autofocus MaxLength="20" ClientIDMode="Static"/>
                     &nbsp;
                     <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
+                    
                  </h2>
                  <% if(ViewState["buttonClicked"].Equals("JoinBtn")) {
                          isJoin = true; %>
-                   
                     <h2> Enter the chat code:
                         <asp:TextBox id="chatCode" type="text" runat="server"  />
                         <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
@@ -69,3 +68,4 @@
      </div>
 
 </asp:Content>
+
