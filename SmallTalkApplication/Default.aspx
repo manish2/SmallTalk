@@ -1,35 +1,38 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" EnableEventValidation="false"%>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
+   
     <script>
         function validateData() {
 
             var displayName = document.getElementById('<%=displayName.ClientID%>').value;
 
-            var chatCode;
-            var valid = true;
-
+            var chatCode = "";
+            
             if (displayName === "" || !displayName) {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.color = 'red';
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'inherit';
-                valid = false;
             } else {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'none';
-               
+                <% ViewState["username"] = displayName; %>
+                window.location = 'Chat.aspx';          
             }
 
             try {
                 chatCode = document.getElementById('<%=chatCode.ClientID%>').value;
-                if (chatCode === "" || !chatCode) {
+                if (chatCode === "initial" || !chatCode) {
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.color = 'red';
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'inherit';
-                    valid = false
+                    
                 } else {
-                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none';                    
+                    document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none'; 
+                    if ($("displayNameValidation").is(":visible")) {
+                        window.location = 'Chat.aspx';
+                    }
                 }
-            } catch (err) {}
-                return valid;
+            } catch (err) { }
+            
+            return false;
         }
     </script>
      <div class='container'>
@@ -49,7 +52,9 @@
                     &nbsp;
                     <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
                  </h2>
-                 <% if(ViewState["buttonClicked"].Equals("JoinBtn")) { %>
+                 <% if(ViewState["buttonClicked"].Equals("JoinBtn")) {
+                         isJoin = true; %>
+                   
                     <h2> Enter the chat code:
                         <asp:TextBox id="chatCode" type="text" runat="server"  />
                         <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>

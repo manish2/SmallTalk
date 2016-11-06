@@ -8,13 +8,12 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : Page
 {
-    
+    public bool isJoin = false; 
     protected void Page_Load(object sender, EventArgs e)
     {
       
         if (ViewState["buttonClicked"] == null)
             ViewState["buttonClicked"] = "None";
-       
     }
     protected void onButtonClick(object sender, EventArgs e)
     {
