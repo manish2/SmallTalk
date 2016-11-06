@@ -40,6 +40,7 @@
              <h1>Small Talk</h1>
              <asp:Button ID="CreateBtn" class="button green" runat="server" Text="Create" Enabled="true" OnClick="onButtonClick"/>
              <asp:Button ID="JoinBtn" class="button blue" runat="server" Text="Join" Enabled="true" OnClick="onButtonClick"/>
+             <asp:Button ID="hdnField" runat="server" style="visibility:hidden" />
          </div>
          <div>
              <img src="Content/Images/chatbubble.png"/>         
@@ -68,3 +69,4 @@
      </div>
 
 </asp:Content>
+
