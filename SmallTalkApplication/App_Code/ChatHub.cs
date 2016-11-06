@@ -12,8 +12,8 @@ public class ChatHub : Hub
     {
         Groups.Add(Context.ConnectionId, roomName);
     }
-    public void BroadCastMessage(string msgFrom, string msg)
+    public void BroadCastMessage(string msg)
     {
-        Clients.All.RecieveMessage(msgFrom, msg);
+        Clients.All.RecieveMessage(msg);
     }
 }
