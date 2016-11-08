@@ -53,11 +53,8 @@
                  <h2> Choose your display name: 
                     <asp:TextBox id="displayName" runat="server" type="text" autofocus MaxLength="20" ClientIDMode="Static"/>
                     &nbsp;
-<<<<<<< HEAD
-                    <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;" ClientIDMode="Static"/>
-=======
+
                     <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right; color: red;"/>
->>>>>>> b76737d0b381ff0dc5ba3b0f8a6149be06b53455
                     
                  </h2>
                  <h2> 
@@ -65,12 +62,7 @@
                          isJoin = true; %>
                         Enter the chat code:
                         <asp:TextBox id="chatCode" type="text" runat="server"  />
-<<<<<<< HEAD
-                        <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;" ClientIDMode="Static"/>
-                    </h2>
-=======
                         
->>>>>>> b76737d0b381ff0dc5ba3b0f8a6149be06b53455
                  <% } %> 
                     <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right; color: red;"/>
                 </h2>
