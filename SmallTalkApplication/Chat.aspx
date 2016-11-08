@@ -18,6 +18,7 @@
                 }
                 else {
                     hub.invoke('BroadCastMessage', " joined the chat! ");
+                    var listBox = $("#memberList").append('<option value="hi">hi</option>');                   
                 }
             });
             con.start().done(function () {
@@ -46,6 +47,6 @@
             <h2>Members
                 <asp:Button ID="shareBtn" class="button blue small" runat="server" Text="Share" />
             </h2>
-            <asp:ListBox ID="memberList" class="memberList" runat="server"></asp:ListBox>
+            <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
         </div>
 </asp:Content>

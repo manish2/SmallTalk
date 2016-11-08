@@ -8,30 +8,31 @@
             var displayName = document.getElementById('<%=displayName.ClientID%>').value;
 
             var chatCode = "";
-            
+            var valid = true; 
             if (displayName === "" || !displayName) {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.color = 'red';
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'inherit';
+                valid = false; 
             } else {
                 document.getElementById('<%=displayNameValidation.ClientID%>').style.display = 'none';
                 localStorage["username"] = $('#displayName').val();
-                window.location = 'Chat.aspx';          
             }
             try {
                 chatCode = document.getElementById('<%=chatCode.ClientID%>').value;
-                if (chatCode === "initial" || !chatCode) {
+                if (chatCode === "" || !chatCode) {
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.color = 'red';
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'inherit';
-                    
+                    valid = false; 
                 } else {
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'none'; 
-                    if ($("displayNameValidation").is(":visible")) {
-                        window.location = 'Chat.aspx';
-                    }
+                   
                 }
             } catch (err) { }
-            
-            return false;
+
+            if (valid) {
+                window.location = "Chat.aspx";
+            }
+            return false; 
         }
     </script>
      <div class='container'>
@@ -49,14 +50,14 @@
                  <h2> Choose your display name: 
                     <asp:TextBox id="displayName" runat="server" type="text" autofocus MaxLength="20" ClientIDMode="Static"/>
                     &nbsp;
-                    <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
+                    <asp:Label id="displayNameValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;" ClientIDMode="Static"/>
                     
                  </h2>
                  <% if(ViewState["buttonClicked"].Equals("JoinBtn")) {
                          isJoin = true; %>
                     <h2> Enter the chat code:
                         <asp:TextBox id="chatCode" type="text" runat="server"  />
-                        <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;"/>
+                        <asp:Label id="chatCodeValidation" runat="server" type="text" Text="Required!" style="display: none; float: right;" ClientIDMode="Static"/>
                     </h2>
                  <% } %> 
              </div>
