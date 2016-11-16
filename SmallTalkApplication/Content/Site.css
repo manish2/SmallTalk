@@ -247,3 +247,11 @@ input[type="button"]::-moz-focus-inner {
 .float-right{
     float:right;
 }
+
+span{
+    padding-right: 5px;
+}
+
+option{
+    color:white;
+}

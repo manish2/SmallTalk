@@ -18,12 +18,27 @@
                 }
                 else {
                     hub.invoke('BroadCastMessage', " joined the chat! ");
+                    hub.invoke('addClient', localStorage.getItem("username"));
+
+                    var memberList = $("#<%= memberList.ClientID %>");
+                    if (document.getElementById("MainContent_memberList") != null) {
+                        hub.invoke('getClients').done(function(clients) { $.each(clients, function () {
+                            var client = this;
+                            var option = document.createElement("OPTION");
+                            option.innerHTML = client;
+                            option.value = client;
+                            document.getElementById("MainContent_memberList").appendChild(option);
+                            })
+                        });
+                        hub.invoke('BroadCastMessage', " tried to add to member list");
+                    }
                 }
             });
             con.start().done(function () {
                 $('#<%=send.ClientID %>').click(function () {
-                    var msg = $("#<%= messageBox.ClientID %>").val();
-                    hub.invoke('BroadCastMessage', ": " + msg);
+                    var messageBox = $("#<%= messageBox.ClientID %>");
+                    hub.invoke('BroadCastMessage', ": " + messageBox.val());
+                    messageBox.val("");
                 });
             });
         })
@@ -34,11 +49,11 @@
              <br /> 
             <div class ="message">
                 <asp:Label runat="server" Text="Message:"></asp:Label>
-                <asp:TextBox ID="messageBox" class="messageBox" runat="server"></asp:TextBox>
+                <asp:TextBox ID="messageBox" class="messageBox" AutoComplete="off" runat="server"></asp:TextBox>
             </div>
             <div class ="chatButtons">
-                <asp:Button ID="emoji" class="button blue small" runat="server" Text="Emoji" />
-                <asp:Button ID="gif" class="button blue small" runat="server" Text="Gif" />
+                <asp:Button ID="emoji" class="button green small" runat="server" Text="Emoji" />
+                <asp:Button ID="gif" class="button green small" runat="server" Text="Gif" />
                 <asp:Button ID="send" class="button blue small float-right" runat="server" Text="Send" onClientClick="return false;"/>
             </div>
         </div>
