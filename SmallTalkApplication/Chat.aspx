@@ -3,7 +3,6 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <script src="Scripts/jquery-1.10.2.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
-    <link href="http://emojicss.com/emoji.css" rel="stylesheet">
     <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
     <script type="text/javascript"> 
         $(function () {
@@ -30,9 +29,6 @@
             });
             $(document).on('click', '#emoji', function () {
                 $('#<%= emojiDiv.ClientID %>').toggle();
-            });
-            $("#emoji").click(function () {
-                $("#emojiDiv").toggle();
             });
             $("tr.emojis td").click(function (e) {
                 var mm = $(this).text();
