@@ -21,5 +21,9 @@ public partial class _Default : Page
         ViewState["buttonClicked"] = button.ID;
         ModalPopupExtender1.Show();
     }
-  
+    public string UserName
+    {
+        set { ViewState["username"] = value; }
+        get { return ViewState["username"].ToString(); }
+    }
  }
