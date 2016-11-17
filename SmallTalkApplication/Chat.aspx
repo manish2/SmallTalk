@@ -3,42 +3,73 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <script src="Scripts/jquery-1.10.2.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $(function () {
+            var isJoin = localStorage.getItem("isJoin");
             var con = $.hubConnection();
-            var hub = con.createHubProxy('chatServer');
-            hub.on('RecieveMessage', function (message) {
+            var hub = con.createHubProxy('ChatServer');
+            hub.on('AddMessage', function (username, message) {
                 var currentVal = $('#chatBox').val();
-                var username = localStorage.getItem("username");
-                $('#chatBox').val(currentVal + username + message + "\n");      
+                $('#chatBox').val("Hello" + "\n");
+                $('#chatBox').val(currentVal + username + message + "\n");
             });
-            con.start().done(function () {
-                if (localStorage.getItem("username") == null) {
-                    window.location = "Default.aspx";
-                }
-                else {
-                    hub.invoke('BroadCastMessage', " joined the chat! ");
-                    hub.invoke('addClient', localStorage.getItem("username"));
 
-                    var memberList = $("#<%= memberList.ClientID %>");
-                    if (document.getElementById("MainContent_memberList") != null) {
-                        hub.invoke('getClients').done(function(clients) { $.each(clients, function () {
-                            var client = this;
-                            var option = document.createElement("OPTION");
-                            option.innerHTML = client;
-                            option.value = client;
-                            document.getElementById("MainContent_memberList").appendChild(option);
-                            })
-                        });
-                        hub.invoke('BroadCastMessage', " tried to add to member list");
-                    }
-                }
+            hub.on('UpdateMembers', function (clients) {
+                $("#memberList").empty();
+                //document.getElementById("<%= memberList.ClientID %>").;
+                $.each(clients, function () {
+                    var client = this;
+                    var option = document.createElement("OPTION");
+                    option.innerHTML = client;
+                    option.value = client;
+                    document.getElementById("<%= memberList.ClientID %>").appendChild(option);
+                })
+            });
+
+            var addMember = function () {
+                hub.invoke('addClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
+                hub.invoke('updateClients', localStorage.getItem("roomname"));
+            }
+
+            var sndFunc = function () {
+                var msg = $("#<%= messageBox.ClientID %>").val();
+                var username = localStorage.getItem("username");
+                var roomname = localStorage.getItem("roomname");
+                $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
+                hub.invoke('BroadCastMessage', roomname, username, ": " + msg);
+            };
+
+            if (isJoin === "false") {
+                con.start().done(function () {
+                    var username = localStorage.getItem("username");
+                    var roomname = localStorage.getItem("roomname");
+                    hub.invoke('CreateRoom', roomname, username);
+                    addMember();
+                });
+            }
+            else {
+                con.start().done(function () {
+                    var roomname = localStorage.getItem("roomname");
+                    var username = localStorage.getItem("username");
+                    hub.invoke('JoinRoom', roomname, username);
+                    <%if (!ChatHub.Exists) {%>
+                    //send error message
+                    alert('Error: This chat does not exist!');
+                    window.location = "ChatLobby.aspx";
+                    <%}%>
+                    addMember();
+                });
+            }
+
+            con.start().done(function () {
+                $('#<%=send.ClientID %>').click(sndFunc);
             });
             con.start().done(function () {
-                $('#<%=send.ClientID %>').click(function () {
-                    var messageBox = $("#<%= messageBox.ClientID %>");
-                    hub.invoke('BroadCastMessage', ": " + messageBox.val());
-                    messageBox.val("");
+                $(document).keypress(function (e) {
+                    if (e.keyCode === 13) {
+                         e.preventDefault();
+                         sndFunc();
+                    }
                 });
             });
         })
@@ -61,6 +92,6 @@
             <h2>Members
                 <asp:Button ID="shareBtn" class="button blue small" runat="server" Text="Share" />
             </h2>
-            <asp:ListBox ID="memberList" class="memberList" runat="server"></asp:ListBox>
+            <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
         </div>
 </asp:Content>

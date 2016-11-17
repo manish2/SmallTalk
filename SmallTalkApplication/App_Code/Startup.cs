@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(SmallTalk.Startup))]
+[assembly: OwinStartup("StartUpChat",typeof(SmallTalk.Startup))]
 namespace SmallTalk
 {
     public partial class Startup {
