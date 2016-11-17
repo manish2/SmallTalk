@@ -15,8 +15,7 @@
             });
 
             hub.on('UpdateMembers', function (clients) {
-                $("#memberList").empty();
-                //document.getElementById("<%= memberList.ClientID %>").;
+                document.getElementById("<%= memberList.ClientID %>").innerHTML="";
                 $.each(clients, function () {
                     var client = this;
                     var option = document.createElement("OPTION");
