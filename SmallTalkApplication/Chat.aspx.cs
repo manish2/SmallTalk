@@ -9,7 +9,7 @@ public partial class Chat : Page
 {
     protected void Page_Init(object sender, EventArgs e)
     {
-        string script = "<script> if (localStorage.getItem('username') == null) { window.location = 'Default.aspx'; } </script>";
+        string script = "<script> if (localStorage.getItem('username') == null) { window.location = 'ChatLobby.aspx'; } </script>";
         Response.Write(script);
     }
     protected void Page_Load(object sender, EventArgs e)

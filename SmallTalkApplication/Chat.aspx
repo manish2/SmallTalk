@@ -10,9 +10,16 @@
             var hub = con.createHubProxy('ChatServer');
             hub.on('AddMessage', function (username, message) {
                 var currentVal = $('#chatBox').val();
+                $('#chatBox').val("Hello" + "\n");
                 $('#chatBox').val(currentVal + username + message + "\n");
-                $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
             });
+            var sndFunc = function () {
+                var msg = $("#<%= messageBox.ClientID %>").val();
+                var username = localStorage.getItem("username");
+                var roomname = localStorage.getItem("roomname");
+                $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
+                hub.invoke('BroadCastMessage', roomname, username, ": " + msg);
+            }; 
             if (isJoin === "false") {
                 con.start().done(function () {
                     var username = localStorage.getItem("username");
@@ -31,15 +38,18 @@
                         window.location = "ChatLobby.aspx";
                     <%}%>
                 });
-            }    
+            } 
             con.start().done(function () {
-                $('#<%=send.ClientID %>').click(function () {
-                    var msg = $("#<%= messageBox.ClientID %>").val();
-                    var username = localStorage.getItem("username");
-                    var roomname = localStorage.getItem("roomname");        
-                    hub.invoke('BroadCastMessage', roomname, username, ": " + msg);
+                $('#<%=send.ClientID %>').click(sndFunc);
+            });
+            con.start().done(function () {
+                $(document).keypress(function (e) {
+                    if (e.keyCode === 13) {
+                         e.preventDefault();
+                         sndFunc();
+                    }
                 });
-            }); 
+            });
         })
     </script>
         <div class ="chat">
