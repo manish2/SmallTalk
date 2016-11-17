@@ -3,30 +3,43 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <script src="Scripts/jquery-1.10.2.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $(function () {
+            var isJoin = localStorage.getItem("isJoin");
             var con = $.hubConnection();
-            var hub = con.createHubProxy('chatServer');
-            hub.on('RecieveMessage', function (message) {
+            var hub = con.createHubProxy('ChatServer');
+            hub.on('AddMessage', function (username, message) {
                 var currentVal = $('#chatBox').val();
-                var username = localStorage.getItem("username");
-                $('#chatBox').val(currentVal + username + message + "\n");      
+                $('#chatBox').val(currentVal + username + message + "\n");
+                $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
             });
-            con.start().done(function () {
-                if (localStorage.getItem("username") == null) {
-                    window.location = "Default.aspx";
-                }
-                else {
-                    hub.invoke('BroadCastMessage', " joined the chat! ");
-                    var listBox = $("#memberList").append('<option value="hi">hi</option>');                   
-                }
-            });
+            if (isJoin === "false") {
+                con.start().done(function () {
+                    var username = localStorage.getItem("username");
+                    var roomname = localStorage.getItem("roomname");
+                    hub.invoke('CreateRoom', roomname, username);
+                });
+            }
+            else {
+                con.start().done(function () {
+                    var roomname = localStorage.getItem("roomname");
+                    var username = localStorage.getItem("username");
+                    hub.invoke('JoinRoom', roomname, username);
+                    <%if (!ChatHub.Exists) {%>
+                        //send error message
+                        alert('Error: This chat does not exist!');
+                        window.location = "ChatLobby.aspx";
+                    <%}%>
+                });
+            }    
             con.start().done(function () {
                 $('#<%=send.ClientID %>').click(function () {
                     var msg = $("#<%= messageBox.ClientID %>").val();
-                    hub.invoke('BroadCastMessage', ": " + msg);
+                    var username = localStorage.getItem("username");
+                    var roomname = localStorage.getItem("roomname");        
+                    hub.invoke('BroadCastMessage', roomname, username, ": " + msg);
                 });
-            });
+            }); 
         })
     </script>
         <div class ="chat">
