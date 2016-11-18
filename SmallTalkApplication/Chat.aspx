@@ -1142,15 +1142,15 @@
                     </table>
                 </div>
             </div>
-             <br /> 
+            <asp:Label runat="server" Text="Message:"></asp:Label>
+            
             <div class ="message">
-                <asp:Label runat="server" Text="Message:"></asp:Label>
-                <asp:TextBox ID="messageBox" class="messageBox" runat="server" ClientIDMode="Static"></asp:TextBox>
-            </div>
-            <div class ="chatButtons">
-                <input type="button" ID="emoji" class="button blue small" value="Emoji"/>
-                <asp:Button ID="gif" class="button blue small" runat="server" Text="Gif" />
-                <asp:Button ID="send" class="button blue small float-right" runat="server" Text="Send" onClientClick="return false;"/>
+                <asp:TextBox ID="messageBox" class="messageBox" runat="server" autocomplete="off" ClientIDMode="Static"></asp:TextBox>
+                <asp:Button ID="send" class="button blue small" runat="server" Text="Send" onClientClick="return false;"/>
+                <div class ="chatButtons">
+                    <input type="button" ID="emoji" class="button blue smaller" value="Emoji"/>
+                    <asp:Button ID="gif" class="button blue smaller" runat="server" Text="Gif" />
+                </div>
             </div>
         </div>
         <div class="members">

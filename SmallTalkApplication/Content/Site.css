@@ -210,12 +210,18 @@ input[type="button"]::-moz-focus-inner {
 }
 
 .small {
-    padding: 10px 25px;
+    padding: 15px 25px;
+}
+
+.smaller {
+    padding: 5px 12.5px;
+    font-size:18.5px;
+    margin:4px;
 }
 
 .memberList{
     width: 100%;
-    flex:1;
+    flex:1.5;
     background-color:black;
 }
 
@@ -234,18 +240,17 @@ input[type="button"]::-moz-focus-inner {
 
 .message{
     display:flex;
+    vertical-align:top;
 }
 
 .messageBox{
     flex:1;
+    margin: 5px;
 }
 
 .chatButtons{
-    text-align:left;
-}
-
-.float-right{
-    float:right;
+    display:flex;
+    flex-direction:column;
 }
 
 span{
