@@ -53,15 +53,16 @@
                     var username = localStorage.getItem("username");
                     hub.invoke('JoinRoom', roomname, username);
                     <%if (!ChatHub.Exists) {%>
-                    //send error message
-                    alert('Error: This chat does not exist!');
-                    window.location = "ChatLobby.aspx";
+                        //send error message
+                        alert('Error: This chat does not exist!');
+                        window.location = "ChatLobby.aspx";
                     <%}%>
                     addMember();
                 });
             }
 
             con.start().done(function () {
+                document.getElementById('<%=chatID.ClientID%>').innerHTML = "Chat Code: " + localStorage.getItem("roomname");
                 $('#<%=send.ClientID %>').click(sndFunc);
             });
             con.start().done(function () {
@@ -1156,6 +1157,8 @@
         <div class="members">
             <h2>Members
                 <asp:Button ID="shareBtn" class="button blue small" runat="server" Text="Share" />
+                <br /> 
+                <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
             </h2>
             <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
         </div>
