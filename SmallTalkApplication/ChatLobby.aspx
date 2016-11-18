@@ -39,7 +39,6 @@
                 else {
                     //generate a random alphanumeric string as the room name
                     localStorage.setItem("roomname", '<%=ChatHub.RandomString(8)%>');
-                    alert(localStorage.getItem("roomname"));
                 }
                 window.location = "Chat.aspx";
             }

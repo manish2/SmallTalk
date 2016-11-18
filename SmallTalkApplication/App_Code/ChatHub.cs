@@ -10,10 +10,27 @@ using System.Web;
 [HubName("ChatServer")]
 public class ChatHub : Hub
 {
+    
     private static Random random = new Random();
     private static List<string> roomInSession = new List<string>();
     private static bool exists = true;
+    private static Dictionary<string, List<string>> clientList = new Dictionary<string, List<string>>();
+
+    public void updateClients(string roomName)
+    {
+        Clients.Group(roomName).updateMembers(clientList[roomName]);
+    }
+
+    public void addClient(string client, string roomName)
+    {
+        if(!clientList.ContainsKey(roomName))
+        {
+            clientList.Add(roomName, new List<string>());
+        }
+        clientList[roomName].Add(client);
+    }
     //Create room with random generated alphanumeric string as the room name
+
     public static bool Exists {
         get {
             return exists;
