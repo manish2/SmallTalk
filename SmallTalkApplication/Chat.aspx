@@ -8,13 +8,14 @@
         $(function () {
             var isJoin = localStorage.getItem("isJoin");
             var con = $.hubConnection();
+            con.connectionSlow(function () {
+                console.log('We are currently experiencing difficulties with the connection.')
+            });
             var hub = con.createHubProxy('ChatServer');
             hub.on('AddMessage', function (username, message) {
                 var currentVal = $('#chatBox').val();
-                $('#chatBox').val("Hello" + "\n");
                 $('#chatBox').val(currentVal + username + message + "\n");
             });
-
             hub.on('UpdateMembers', function (clients) {
                 document.getElementById("<%= memberList.ClientID %>").innerHTML="";
                 $.each(clients, function () {
@@ -64,6 +65,16 @@
             con.start().done(function () {
                 document.getElementById('<%=chatID.ClientID%>').innerHTML = "Chat Code: " + localStorage.getItem("roomname");
                 $('#<%=send.ClientID %>').click(sndFunc);
+                //disconnect event 
+                var roomname = localStorage.getItem("roomname");
+                var username = localStorage.getItem("username");
+                $(window).on('beforeunload', function () {
+                    return "This should create a pop-up";
+                });
+                $(window).unload(function () {
+                    hub.invoke('BroadCastMessage', roomname, username, " left the chatroom!");
+                    return "Handler for .unload() called.";
+                });
             });
             con.start().done(function () {
                 $(document).keypress(function (e) {
