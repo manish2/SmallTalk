@@ -15,7 +15,8 @@ public class ChatHub : Hub
     private static List<string> roomInSession = new List<string>();
     private static bool exists = true;
     private static Dictionary<string, List<string>> clientList = new Dictionary<string, List<string>>();
-
+    private static string roomName;
+    private static string userName;
     public void updateClients(string roomName)
     {
         Clients.Group(roomName).updateMembers(clientList[roomName]);
@@ -29,8 +30,12 @@ public class ChatHub : Hub
         }
         clientList[roomName].Add(client);
     }
-    //Create room with random generated alphanumeric string as the room name
-
+    public static List<string> RoomsInSession {
+        get
+        {
+            return roomInSession;
+        }
+    }
     public static bool Exists {
         get {
             return exists;
@@ -40,6 +45,29 @@ public class ChatHub : Hub
             exists = value; 
         }
     }
+    public static string RoomName
+    {
+        get
+        {
+            return roomName;
+        }
+        set
+        {
+            roomName = value;
+        }
+    }
+    public static string UserName
+    {
+        get
+        {
+            return userName;
+        }
+        set
+        {
+            userName = value;
+        }
+    }
+    //Create room with random generated alphanumeric string as the room name
     public void CreateRoom(string roomName,string sender)
     {
         //If the generate room is not already in session
@@ -76,7 +104,6 @@ public class ChatHub : Hub
     public void BroadCastMessage(string roomName,string sender,string msg)
     {
         Clients.Group(roomName).AddMessage(sender,msg);
-        //Clients.All.AddMessage(sender, msg);
     }
     public static string RandomString(int length)
     {
