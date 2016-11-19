@@ -69,10 +69,14 @@
                 var roomname = localStorage.getItem("roomname");
                 var username = localStorage.getItem("username");
                 $(window).on('beforeunload', function () {
-                    return "This should create a pop-up";
+                    return " "; //creates a popup to warn user before disconnecting
                 });
                 $(window).unload(function () {
                     hub.invoke('BroadCastMessage', roomname, username, " left the chatroom!");
+                    //Release all our data from localhost
+                    localStorage.removeItem("roomname");
+                    localStorage.removeItem("username");
+                    localStorage.removeItem("isJoin");
                     return "Handler for .unload() called.";
                 });
             });
