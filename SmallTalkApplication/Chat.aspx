@@ -97,6 +97,17 @@
                 $("#messageBox").val(textVal + mm);
                 e.stopPropagation();
             });
+
+
+            $('#shareBtn').click(function (e) {
+                $('.pop').toggleClass('popOut');
+                $('.popOut').css({
+                    'left': $(this).offset().left + $(this).outerWidth() - $('.popOut').width(),
+                    //'left': $(this).offset().right - $('.popOut').width(),
+                    'top': $(this).offset().top + $(this).height() + 40
+                })
+
+            });
         })
     </script>
         <div class ="chat">
@@ -1171,10 +1182,11 @@
         </div>
         <div class="members">
             <h2>Members
-                <asp:Button ID="shareBtn" class="button blue small" runat="server" Text="Share" />
-                <br /> 
-                <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
+                <input type="button" ID="shareBtn" class="button blue small" Value="Share" />
             </h2>
+            <div class ="pop">
+                <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
+            </div>
             <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
         </div>
 </asp:Content>
