@@ -73,8 +73,13 @@
                     }
                 });
             });
-            $(document).on('click', '#emoji', function () {
+            $(document).on('click', '#emoji', function (e) {
                 $('#<%= emojiDiv.ClientID %>').toggle();
+                $('.emojiOuter').css({
+                    'left': $(this).offset().left + $(this).outerWidth() + 12,
+                    'top': $(this).offset().top + $(this).height() - $('.emojiOuter').outerHeight() + 12,
+                    'z-index': 1
+                })
             });
             $("tr.emojis td").click(function (e) {
                 var mm = $(this).text();
@@ -88,8 +93,7 @@
                 $('.pop').toggleClass('popOut');
                 $('.popOut').css({
                     'left': $(this).offset().left + $(this).outerWidth() - $('.popOut').width(),
-                    //'left': $(this).offset().right - $('.popOut').width(),
-                    'top': $(this).offset().top + $(this).height() + 40
+                    'top': $(this).offset().top + $(this).height() + $('.popOut').height()/2
                 })
 
             });
@@ -1167,7 +1171,7 @@
         </div>
         <div class="members">
             <h2>Members
-                <input type="button" ID="shareBtn" class="button blue small" Value="Share" />
+                <input type="button" ID="shareBtn" class="button blue smaller" Value="Share" />
             </h2>
             <div class ="pop">
                 <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
