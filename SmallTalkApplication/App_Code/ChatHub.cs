@@ -17,11 +17,6 @@ public class ChatHub : Hub
     private static Dictionary<string, List<string>> clientList = new Dictionary<string, List<string>>();
     private static string roomName;
     private static string userName;
-    public void updateClients(string roomName)
-    {
-        Clients.Group(roomName).updateMembers(clientList[roomName]);
-    }
-
     public void addClient(string client, string roomName)
     {
         if(!clientList.ContainsKey(roomName))
@@ -29,7 +24,16 @@ public class ChatHub : Hub
             clientList.Add(roomName, new List<string>());
         }
         clientList[roomName].Add(client);
+
+        Clients.Group(roomName).updateMembers(clientList[roomName]);
     }
+    public void removeClient(string client, string roomName)
+    {
+        clientList[roomName].Remove(client);
+
+        Clients.Group(roomName).updateMembers(clientList[roomName]);
+    }
+
     public static List<string> RoomsInSession {
         get
         {
@@ -77,7 +81,7 @@ public class ChatHub : Hub
              roomInSession.Add(roomName);
              Groups.Add(Context.ConnectionId, roomName); //add our client
              //send message to other clients a message that user has connected
-             BroadCastMessage(roomName,sender, " created the room!"); 
+             BroadCastMessage(roomName,sender, " created the room!", true); 
          }
     }
     /// <summary>
@@ -98,13 +102,14 @@ public class ChatHub : Hub
             exists = true; //set our flag back to true 
             Groups.Add(Context.ConnectionId, roomName); //add our client
             //send message to other clients a message that user has connected
-            BroadCastMessage(roomName, sender, " joined the room!");
+            BroadCastMessage(roomName, sender, " joined the room!" , true);
         }
     }
-    public void BroadCastMessage(string roomName,string sender,string msg)
+    public void BroadCastMessage(string roomName,string sender,string msg, bool server)
     {
-        Clients.Group(roomName).AddMessage(sender,msg);
+        Clients.Group(roomName).AddMessage(sender,msg, server);
     }
+
     public static string RandomString(int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
