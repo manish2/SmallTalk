@@ -4,9 +4,12 @@
    <!--This function validates our the username and chat link before the user can enter the chatroom -->
     <script>
         function validateData() {
+            function Trim(value) {
+                return value.replace(/^\s+|\s+$/gm, '');
+            }
             //CHAT KEY: FIZWIFAE
             //we get the user's chat name
-            var displayName = document.getElementById('<%=displayName.ClientID%>').value;
+            var displayName = Trim(document.getElementById('<%=displayName.ClientID%>').value);
            
             var chatCode = "";
 
@@ -20,7 +23,7 @@
                 localStorage["username"] = $('#displayName').val();
             }
             try {
-                chatCode = document.getElementById('<%=chatCode.ClientID%>').value;
+                chatCode = Trim(document.getElementById('<%=chatCode.ClientID%>').value);
                 if (chatCode === "" || !chatCode) {
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.color = 'red';
                     document.getElementById('<%=chatCodeValidation.ClientID%>').style.display = 'inherit';
