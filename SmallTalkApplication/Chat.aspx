@@ -132,7 +132,6 @@
                     $(xml).find('Emoji').each(function () {
                         var id = $(this).find('ID').text();
                         $(".emojiTable tr:eq(" + row + ") > td:eq(" + column + ")").append(id);
-                        console.log(id);
                         
                         if(column == 9) {
                             row++;
