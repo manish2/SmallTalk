@@ -1,10 +1,10 @@
-﻿<%@ Page Title="SmallTalk" Language="C#"  MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Chat.aspx.cs" Inherits="Chat" EnableEventValidation="false"%>
+﻿<%@ Page Title="SmallTalk" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="Chat.aspx.cs" Inherits="Chat" EnableEventValidation="false" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <script src="Scripts/jquery-1.10.2.js"></script>
     <script src="Scripts/jquery.signalR-2.2.1.js"></script>
     <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         $(function () {
             var isJoin = localStorage.getItem("isJoin");
             var con = $.hubConnection();
@@ -12,12 +12,26 @@
                 console.log('We are currently experiencing difficulties with the connection.')
             });
             var hub = con.createHubProxy('ChatServer');
-            hub.on('AddMessage', function (username, message) {
+            hub.on('AddMessage', function (username, message, server) {
+                /*
                 var currentVal = $('#chatBox').val();
                 $('#chatBox').val(currentVal + username + message + "\n");
+                */
+                var side = "left";
+                if (username == localStorage.getItem("username")) {
+                    side = "right"
+                }
+
+                if (server) {
+                    $('#chatBox').append("<div class = 'messageFrame'><div class = 'serverMessage'>"+ username + message +"</div></div>");
+                } else {
+                    $('#chatBox').append("<div class = 'messageFrame " + side + "'><div class = 'chatMessage'><div class = 'name'>" + username + "</div><div class = 'message'>" + message + "</div></div></div>");
+                }
+                var objDiv = document.getElementById("chatBox");
+                objDiv.scrollTop = objDiv.scrollHeight;
             });
             hub.on('UpdateMembers', function (clients) {
-                document.getElementById("<%= memberList.ClientID %>").innerHTML="";
+                document.getElementById("<%= memberList.ClientID %>").innerHTML = "";
                 $.each(clients, function () {
                     var client = this;
                     var option = document.createElement("OPTION");
@@ -29,7 +43,10 @@
 
             var addMember = function () {
                 hub.invoke('addClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
-                hub.invoke('updateClients', localStorage.getItem("roomname"));
+            }
+
+            var removeMember = function(){
+                hub.invoke('removeClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
             }
 
             var sndFunc = function () {
@@ -37,7 +54,7 @@
                 var username = localStorage.getItem("username");
                 var roomname = localStorage.getItem("roomname");
                 $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
-                hub.invoke('BroadCastMessage', roomname, username, ": " + msg);
+                hub.invoke('BroadCastMessage', roomname, username, msg, false);
             };
 
             if (isJoin === "false") {
@@ -53,10 +70,11 @@
                     var roomname = localStorage.getItem("roomname");
                     var username = localStorage.getItem("username");
                     hub.invoke('JoinRoom', roomname, username);
-                    <%if (!ChatHub.Exists) {%>
-                        //send error message
-                        alert('Error: This chat does not exist!');
-                        window.location = "ChatLobby.aspx";
+                    <%if (!ChatHub.Exists)
+        {%>
+                    //send error message
+                    alert('Error: This chat does not exist!');
+                    window.location = "ChatLobby.aspx";
                     <%}%>
                     addMember();
                 });
@@ -72,7 +90,8 @@
                     return " "; //creates a popup to warn user before disconnecting
                 });
                 $(window).unload(function () {
-                    hub.invoke('BroadCastMessage', roomname, username, " left the chatroom!");
+                    hub.invoke('BroadCastMessage', roomname, username, " left the chatroom!", true);
+                    removeMember();
                     //Release all our data from localhost
                     localStorage.removeItem("roomname");
                     localStorage.removeItem("username");
@@ -83,8 +102,8 @@
             con.start().done(function () {
                 $(document).keypress(function (e) {
                     if (e.keyCode === 13) {
-                         e.preventDefault();
-                         sndFunc();
+                        e.preventDefault();
+                        sndFunc();
                     }
                 });
             });
@@ -137,39 +156,41 @@
                 $('.pop').toggleClass('popOut');
                 $('.popOut').css({
                     'left': $(this).offset().left + $(this).outerWidth() - $('.popOut').width(),
-                    'top': $(this).offset().top + $(this).height() + $('.popOut').height()/2
+                    'top': $(this).offset().top + $(this).height() + $('.popOut').height() / 2
                 })
 
             });
         })
     </script>
-        <div class ="chat">
-            <h2>SmallTalk</h2>
-            <asp:TextBox ID="chatBox" class="chatBox" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="MultiLine"></asp:TextBox>
-            <div class="emojiOuter">
-                <div runat="server" id="emojiDiv" class="emoji-list">
-                    <table class="emojiTable">
-                    </table>
-                </div>
-            </div>
-            <asp:Label runat="server" Text="Message:"></asp:Label>
-            
-            <div class ="message">
-                <asp:TextBox ID="messageBox" class="messageBox" runat="server" autocomplete="off" ClientIDMode="Static"></asp:TextBox>
-                <asp:Button ID="send" class="button blue small" runat="server" Text="Send" onClientClick="return false;"/>
-                <div class ="chatButtons">
-                    <input type="button" ID="emoji" class="button blue smaller" value="Emoji"/>
-                    <asp:Button ID="gif" class="button blue smaller" runat="server" Text="Gif" />
-                </div>
+    <div class="chat">
+        <h2>SmallTalk</h2>
+        <!--<asp:TextBox ID="chatBox" class="chatBox" runat="server" ReadOnly="true" ClientIDMode="Static" TextMode="MultiLine"></asp:TextBox>
+        -->
+        <div id="chatBox" class ="chatBox"></div>
+        <div class="emojiOuter">
+            <div runat="server" id="emojiDiv" class="emoji-list">
+                <table class="emojiTable">
+                </table>
             </div>
         </div>
-        <div class="members">
-            <h2>Members
-                <input type="button" ID="shareBtn" class="button blue smaller" Value="Share" />
-            </h2>
-            <div class ="pop">
-                <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
+        <asp:Label runat="server" Text="Message:"></asp:Label>
+
+        <div class="message">
+            <asp:TextBox ID="messageBox" class="messageBox" runat="server" autocomplete="off" ClientIDMode="Static"></asp:TextBox>
+            <asp:Button ID="send" class="button blue small" runat="server" Text="Send" OnClientClick="return false;" />
+            <div class="chatButtons">
+                <input type="button" id="emoji" class="button blue smaller" value="Emoji" />
+                <asp:Button ID="gif" class="button blue smaller" runat="server" Text="Gif" />
             </div>
-            <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
         </div>
+    </div>
+    <div class="members">
+        <h2>Members
+                <input type="button" id="shareBtn" class="button blue smaller" value="Share" />
+        </h2>
+        <div class="pop">
+            <asp:Label ID="chatID" runat="server" ClientIDMode="Static"></asp:Label>
+        </div>
+        <asp:ListBox ID="memberList" class="memberList" runat="server" ClientIDMode="Static"></asp:ListBox>
+    </div>
 </asp:Content>
