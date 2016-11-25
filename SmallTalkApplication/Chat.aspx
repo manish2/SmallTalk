@@ -150,6 +150,7 @@
                 var mm = $(this).text();
                 var textVal = $("#messageBox").val();
                 $("#messageBox").val(textVal + mm);
+                $('#messageBox').focus();
             });
 
             $('#shareBtn').click(function (e) {
