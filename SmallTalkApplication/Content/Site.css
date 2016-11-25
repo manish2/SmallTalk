@@ -281,7 +281,7 @@ option{
 }
 
 .emoji-list {
-    width: 255px;
+    width: 280px;
     height: 400px;
     background-color: #fff;
     border: 6px solid #39a0be;
@@ -325,4 +325,9 @@ option{
 
 #shareBtn{
     float:right;
+}
+
+.emojiTable tr td:hover {
+    transform:scale(1.2);
+    cursor: pointer;
 }
