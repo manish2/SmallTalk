@@ -45,13 +45,17 @@
             var removeMember = function(){
                 hub.invoke('removeClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
             }
-
+            function Trim(value) {
+                return value.replace(/^\s+|\s+$/gm, '');
+            }
             var sndFunc = function () {
-                var msg = $("#<%= messageBox.ClientID %>").val();
+                var msg = Trim($("#<%= messageBox.ClientID %>").val());
                 var username = localStorage.getItem("username");
                 var roomname = localStorage.getItem("roomname");
-                $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
-                hub.invoke('BroadCastMessage', roomname, username, msg, false);
+                if (msg != "") {
+                     $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
+                     hub.invoke('BroadCastMessage', roomname, username, msg, false);
+                }
             };
 
             if (isJoin === "false") {
