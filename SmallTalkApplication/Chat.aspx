@@ -13,10 +13,6 @@
             });
             var hub = con.createHubProxy('ChatServer');
             hub.on('AddMessage', function (username, message, server) {
-                /*
-                var currentVal = $('#chatBox').val();
-                $('#chatBox').val(currentVal + username + message + "\n");
-                */
                 var side = "left";
                 if (username == localStorage.getItem("username")) {
                     side = "right"
@@ -25,7 +21,8 @@
                 if (server) {
                     $('#chatBox').append("<div class = 'messageFrame'><div class = 'serverMessage'>"+ username + message +"</div></div>");
                 } else {
-                    $('#chatBox').append("<div class = 'messageFrame " + side + "'><div class = 'chatMessage'><div class = 'name'>" + username + "</div><div class = 'message'>" + message + "</div></div></div>");
+                    $('#chatBox').append("<div class = 'messageFrame " + side + "'><div class = 'chatMessage'><div class='triangle"+side+"'></div><div class = 'name'>" + username + "</div><div class = 'message'>" + message + "</div></div></div>");
+
                 }
                 var objDiv = document.getElementById("chatBox");
                 objDiv.scrollTop = objDiv.scrollHeight;
@@ -173,10 +170,11 @@
                 </table>
             </div>
         </div>
-        <asp:Label runat="server" Text="Message:"></asp:Label>
+
+        <br/>
 
         <div class="message">
-            <asp:TextBox ID="messageBox" class="messageBox" runat="server" autocomplete="off" ClientIDMode="Static"></asp:TextBox>
+            <asp:TextBox ID="messageBox" class="messageBox" runat="server" wrap="true" TextMode="MultiLine" Rows="3" placeholder="Enter message here..." autocomplete="off" ClientIDMode="Static"></asp:TextBox>
             <asp:Button ID="send" class="button blue small" runat="server" Text="Send" OnClientClick="return false;" />
             <div class="chatButtons">
                 <input type="button" id="emoji" class="button blue smaller" value="Emoji" />
