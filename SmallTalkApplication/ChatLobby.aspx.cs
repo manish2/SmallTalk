@@ -19,7 +19,7 @@ public partial class _Default : Page
     {
         Button button = (Button)sender;
         ViewState["buttonClicked"] = button.ID;
-        ModalPopupExtender1.Show();
+        ModalDialog.Show();
     }
     public string UserName
     {
