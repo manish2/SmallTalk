@@ -110,6 +110,11 @@ public class ChatHub : Hub
         Clients.Group(roomName).AddMessage(sender,msg, server);
     }
 
+    public void BroadCastGif(string roomName, string sender, string src)
+    {
+        Clients.Group(roomName).AddGif(sender, src);
+    }
+
     public static string RandomString(int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

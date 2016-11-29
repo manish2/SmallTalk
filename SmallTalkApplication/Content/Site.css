@@ -335,6 +335,47 @@ option{
     margin-left: 10px;
 }
 
+.gifOuter {
+    position: absolute;
+}
+
+.gif-list {
+    width: 280px;
+    height: 400px;
+    background-color: #fff;
+    border: 6px solid #39a0be;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-box-shadow: 2px 2px 4px #888;
+    -moz-box-shadow: 2px 2px 4px #888;
+    box-shadow: 2px 2px 4px #888;
+    background: rgba(238,233,233,0.9);
+    overflow-y: auto;
+    display: none;
+     -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.gifTable {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 10px;
+}
+
+img {
+    width:100%;
+}
+
+.chatGif{
+    max-height:40% !important;
+}
+
 .pop{
     display:none;
 }
@@ -446,5 +487,4 @@ option{
     border-left: 10px solid rgba(255,255,255,0.3);
     margin-top:5px;
     margin-right:-23.5px;
->>>>>>> fce1cc544ba6e8fc5312dc16d72c02e8785f093a
 }
