@@ -373,7 +373,10 @@ img {
 }
 
 .chatGif{
-    max-height:40% !important;
+    width:auto;
+    min-width:70%;
+    max-width:100%;
+    max-height:500px;
 }
 
 .pop{
