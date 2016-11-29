@@ -116,7 +116,27 @@
                     'z-index': 1
                 })
             });
-
+            $(document).on('click', '#gif', function (e) {
+                $('#<%= gifDiv.ClientID %>').toggle();
+                $('.gifOuter').css({
+                    'left': $(this).offset().left + $(this).outerWidth() + 12,
+                    'top': $(this).offset().top + $(this).height() - $('.gifOuter').outerHeight() + 12,
+                    'z-index': 1
+                })
+            });
+            //TO LOAD GIFS VIA REST
+            $.ajax({
+                type: "GET",
+                url: "http://api.giphy.com/v1/gifs/search?q=trending&api_key=dc6zaTOxFJmzC",
+                dataType: "json",
+                success: function (jsonData) {
+                    for (var i = 0; i < jsonData.data.length; i++) {
+                        //this is the gif url 
+                        console.log(jsonData.data[i].images.downsized.url);
+                    }
+                }
+            })
+            //TO GET EMOJIS VIA REST
             $.ajax({
                 type: "GET",
                 url: "../allEmojis.xml",
@@ -173,7 +193,12 @@
                 </table>
             </div>
         </div>
-
+        <div class="gifOuter">
+            <div runat="server" id="gifDiv" class="gif-list">
+                <table class="gifTable">
+                </table>
+            </div>
+        </div>
         <br/>
 
         <div class="message">
@@ -181,7 +206,7 @@
             <asp:Button ID="send" class="button blue small" runat="server" Text="Send" OnClientClick="return false;" />
             <div class="chatButtons">
                 <input type="button" id="emoji" class="button blue smaller" value="Emoji" />
-                <asp:Button ID="gif" class="button blue smaller" runat="server" Text="Gif" />
+                <input type="button" id="gif" class="button blue smaller" value="Gif" /> 
             </div>
         </div>
     </div>
