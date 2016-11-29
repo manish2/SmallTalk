@@ -26,6 +26,17 @@ form{
     flex:1;
 }
 
+#MainContent_Dialog{
+    display: -webkit-flex;
+    justify-content:center;
+    flex-direction:column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width:100%;
+    max-width:unset;
+}
+
 .overlay {
   position: fixed;
   top: 0;
@@ -52,7 +63,7 @@ form{
 }
 
 h1 {
-    margin: 0.5em auto;
+    margin: auto;
     color:  #ffffff ;
     vertical-align: text-top;
     font-family: 'Nunito', sans-serif;
@@ -62,6 +73,14 @@ h1 {
 h2 { 
     color:  #ffffff ;
     font-family: 'Nunito', sans-serif;
+}
+h3{
+    color:  #ffffff ;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 50px;
+    text-decoration:underline;
+    font-weight:bold;
+    font-size:250%;
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -92,7 +111,7 @@ textarea {
 .button {
 	display: inline-block;
 	position: relative;
-	margin: 10px;
+	margin: 15px;
 	padding: 20px 50px;
 	text-align: center;
 	text-decoration: none;
@@ -194,6 +213,8 @@ input[type="button"]::-moz-focus-inner {
 { 
     background-color:black; 
 }
+
+
 
 .members
 {
