@@ -27,6 +27,15 @@
                 var objDiv = document.getElementById("chatBox");
                 objDiv.scrollTop = objDiv.scrollHeight;
             });
+            hub.on('AddGif', function (username, gifsrc) {
+                var side = "left";
+                if (username == localStorage.getItem("username")) {
+                    side = "right"
+                }
+                $('#chatBox').append("<div class = 'messageFrame " + side + "'><div class = 'chatMessage'><div class='triangle" + side + "'></div><div class = 'name'>" + username + "</div><img class='chatGif' src='" + gifsrc + "' alt='gif'></div></div>");
+                var objDiv = document.getElementById("chatBox");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            });
             //refreshes the member list everytime someone joins or exits the room 
             hub.on('UpdateMembers', function (clients) {
                 document.getElementById("<%= memberList.ClientID %>").innerHTML = "";
@@ -114,6 +123,7 @@
                 });
             });
             $(document).on('click', '#emoji', function (e) {
+                $('#<%= gifDiv.ClientID %>').hide();
                 $('#<%= emojiDiv.ClientID %>').toggle();
                 $('.emojiOuter').css({
                     'left': $(this).offset().left + $(this).outerWidth() + 12,
@@ -122,6 +132,7 @@
                 })
             });
             $(document).on('click', '#gif', function (e) {
+                $('#<%= emojiDiv.ClientID %>').hide();
                 $('#<%= gifDiv.ClientID %>').toggle();
                 $('.gifOuter').css({
                     'left': $(this).offset().left + $(this).outerWidth() + 12,
@@ -137,7 +148,8 @@
                 success: function (jsonData) {
                     for (var i = 0; i < jsonData.data.length; i++) {
                         //this is the gif url 
-                        console.log(jsonData.data[i].images.downsized.url);
+                        $('.gifTable').append('<tr><td id = '+ jsonData.data[i].images.downsized.url +'><img src="' + jsonData.data[i].images.downsized.url + '" alt="gif' + i + '"></td></tr>');
+                        //console.log(jsonData.data[i].images.downsized.url);
                     }
                 }
             })
@@ -175,6 +187,15 @@
                 var mm = $(this).text();
                 var textVal = $("#messageBox").val();
                 $("#messageBox").val(textVal + mm);
+                $('#messageBox').focus();
+            });
+            
+            $('.gifTable').on('click', 'td', function () {
+                var src = $(this).attr('id');
+
+                var roomname = localStorage.getItem("roomname");
+                var username = localStorage.getItem("username");
+                hub.invoke('BroadCastGif', roomname, username, src);
                 $('#messageBox').focus();
             });
 

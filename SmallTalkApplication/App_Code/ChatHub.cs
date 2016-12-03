@@ -132,6 +132,17 @@ public class ChatHub : Hub
         Clients.Group(roomName).AddMessage(sender,msg, server);
     }
     /// <summary>
+    /// Sends the gif to everyone in the chat
+    /// </summary>
+    /// <param name="roomName"></param>
+    /// <param name="sender"></param>
+    /// <param name="src"></param>
+    public void BroadCastGif(string roomName, string sender, string src)
+    {
+        Clients.Group(roomName).AddGif(sender, src);
+    }
+
+    /// <summary>
     /// This function generates the random chatroom id 
     /// </summary>
     /// <param name="length"></param>
