@@ -7,7 +7,6 @@
             function Trim(value) {
                 return value.replace(/^\s+|\s+$/gm, '');
             }
-            //CHAT KEY: FIZWIFAE
             //we get the user's chat name
             var displayName = Trim(document.getElementById('<%=displayName.ClientID%>').value);
 

@@ -7,17 +7,17 @@
     <script type="text/javascript">
         $(function () {
             var isJoin = localStorage.getItem("isJoin");
-            var con = $.hubConnection();
+            var con = $.hubConnection(); //makes a connection to the SignalR server
             con.connectionSlow(function () {
                 console.log('We are currently experiencing difficulties with the connection.')
             });
-            var hub = con.createHubProxy('ChatServer');
+            var hub = con.createHubProxy('ChatServer'); //maps all the hub calls to our Chat.cs
             hub.on('AddMessage', function (username, message, server) {
                 var side = "left";
                 if (username == localStorage.getItem("username")) {
                     side = "right"
                 }
-
+                //appends a special div to server messages
                 if (server) {
                     $('#chatBox').append("<div class = 'messageFrame'><div class = 'serverMessage'>"+ username + message +"</div></div>");
                 } else {
@@ -27,6 +27,7 @@
                 var objDiv = document.getElementById("chatBox");
                 objDiv.scrollTop = objDiv.scrollHeight;
             });
+            //refreshes the member list everytime someone joins or exits the room 
             hub.on('UpdateMembers', function (clients) {
                 document.getElementById("<%= memberList.ClientID %>").innerHTML = "";
                 $.each(clients, function () {
@@ -37,27 +38,30 @@
                     document.getElementById("<%= memberList.ClientID %>").appendChild(option);
                 })
             });
-
+            //adds the client to the chatroom
             var addMember = function () {
                 hub.invoke('addClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
             }
-
-            var removeMember = function(){
+            //removes the disconnected client from the members list in the chat
+            var removeMember = function () {
+                //executes the removeClient function in ChatHub.cs 
                 hub.invoke('removeClient', localStorage.getItem("username"), localStorage.getItem("roomname"));
             }
+            //Trims any leading/trailing whitespace from the message
             function Trim(value) {
                 return value.replace(/^\s+|\s+$/gm, '');
             }
+            //This variable stores the function to send a message to all users in the chat 
             var sndFunc = function () {
-                var msg = Trim($("#<%= messageBox.ClientID %>").val());
+                var msg = Trim($("#<%= messageBox.ClientID %>").val()); //we trim the whitespace from the message
                 var username = localStorage.getItem("username");
                 var roomname = localStorage.getItem("roomname");
-                if (msg != "") {
+                if (msg != "") { //prevents message spam from user
                      $("#<%= messageBox.ClientID %>").val(""); //clear the message box after sending message
                      hub.invoke('BroadCastMessage', roomname, username, msg, false);
                 }
             };
-
+            //Checks to see if user clicked Join or Create
             if (isJoin === "false") {
                 con.start().done(function () {
                     var username = localStorage.getItem("username");
@@ -80,7 +84,7 @@
                     addMember();
                 });
             }
-
+            //creates the disconnect feature
             con.start().done(function () {
                 document.getElementById('<%=chatID.ClientID%>').innerHTML = "Chat Code: " + localStorage.getItem("roomname");
                 $('#<%=send.ClientID %>').click(sndFunc);
@@ -100,6 +104,7 @@
                     return "Handler for .unload() called.";
                 });
             });
+            //binds the enter key to the send function
             con.start().done(function () {
                 $(document).keypress(function (e) {
                     if (e.keyCode === 13) {
@@ -124,7 +129,7 @@
                     'z-index': 1
                 })
             });
-            //TO LOAD GIFS VIA REST
+            //TO GET GIFS VIA REST
             $.ajax({
                 type: "GET",
                 url: "http://api.giphy.com/v1/gifs/search?q=trending&api_key=dc6zaTOxFJmzC",

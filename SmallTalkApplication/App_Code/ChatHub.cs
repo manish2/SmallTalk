@@ -11,42 +11,30 @@ using System.Web;
 public class ChatHub : Hub
 {
     
-    private static Random random = new Random();
+    private static Random random = new Random(); //loads the random class to generate room id
     private static List<string> roomInSession = new List<string>();
-    private static bool exists = true;
+    private static bool exists = true; //Flag variable to check if room is already open
+    //keeps track of the clients in the current room 
     private static Dictionary<string, List<string>> clientList = new Dictionary<string, List<string>>();
     private static string roomName;
     private static string userName;
-    public void addClient(string client, string roomName)
+
+    public static List<string> RoomsInSession
     {
-        if(!clientList.ContainsKey(roomName))
-        {
-            clientList.Add(roomName, new List<string>());
-        }
-        clientList[roomName].Add(client);
-
-        Clients.Group(roomName).updateMembers(clientList[roomName]);
-    }
-    public void removeClient(string client, string roomName)
-    {
-        clientList[roomName].Remove(client);
-
-        Clients.Group(roomName).updateMembers(clientList[roomName]);
-    }
-
-    public static List<string> RoomsInSession {
         get
         {
             return roomInSession;
         }
     }
-    public static bool Exists {
-        get {
+    public static bool Exists
+    {
+        get
+        {
             return exists;
         }
         set
         {
-            exists = value; 
+            exists = value;
         }
     }
     public static string RoomName
@@ -71,6 +59,33 @@ public class ChatHub : Hub
             userName = value;
         }
     }
+    /// <summary>
+    /// Adds the newly connected client to the ChatRoom 
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="roomName"></param>
+    public void addClient(string client, string roomName)
+    {
+        if(!clientList.ContainsKey(roomName))
+        {
+            clientList.Add(roomName, new List<string>());
+        }
+        clientList[roomName].Add(client);
+
+        Clients.Group(roomName).updateMembers(clientList[roomName]);
+    }
+    /// <summary>
+    /// Removes the Client from the members list 
+    /// </summary>
+    /// <param name="client"></param>
+    /// <param name="roomName"></param>
+    public void removeClient(string client, string roomName)
+    {
+        clientList[roomName].Remove(client);
+
+        Clients.Group(roomName).updateMembers(clientList[roomName]);
+    }
+    
     //Create room with random generated alphanumeric string as the room name
     public void CreateRoom(string roomName,string sender)
     {
@@ -105,11 +120,22 @@ public class ChatHub : Hub
             BroadCastMessage(roomName, sender, " joined the room!" , true);
         }
     }
+    /// <summary>
+    /// Sends the message to clients in the current chatroom
+    /// </summary>
+    /// <param name="roomName"></param>
+    /// <param name="sender"></param>
+    /// <param name="msg"></param>
+    /// <param name="server"></param>
     public void BroadCastMessage(string roomName,string sender,string msg, bool server)
     {
         Clients.Group(roomName).AddMessage(sender,msg, server);
     }
-
+    /// <summary>
+    /// This function generates the random chatroom id 
+    /// </summary>
+    /// <param name="length"></param>
+    /// <returns></returns>
     public static string RandomString(int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
