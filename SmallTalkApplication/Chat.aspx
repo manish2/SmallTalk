@@ -62,7 +62,8 @@
             }
             //This variable stores the function to send a message to all users in the chat 
             var sndFunc = function () {
-                var msg = Trim($("#<%= messageBox.ClientID %>").val()); //we trim the whitespace from the message
+                //we trim the whitespace from the message
+                var msg = Trim($("#<%= messageBox.ClientID %>").val());
                 var username = localStorage.getItem("username");
                 var roomname = localStorage.getItem("roomname");
                 if (msg != "") { //prevents message spam from user
